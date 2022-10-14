@@ -5,6 +5,8 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    const pistolShot = new Audio('./sound/pistol.mp3');
+
     class Particle {
         constructor(effect, x, y, color) {
             this.effect = effect;
@@ -32,7 +34,7 @@ window.addEventListener('load', function () {
             this.dx = this.effect.mouse.x - this.x;
             this.dy = this.effect.mouse.y - this.y;
             this.distance = this.dx * this.dx + this.dy * this.dy;
-            this.force = -this.effect.mouse.radius / this.distance;
+            this.force = -30/this.distance;
 
             this.x += (this.vx *= this.friction) + (this.OriginX - this.x) * this.ease;
             this.y += (this.vy *= this.friction) + (this.OriginY - this.y) * this.ease;
@@ -68,8 +70,11 @@ window.addEventListener('load', function () {
             }
 
             window.addEventListener('click', (event) => {
+                pistolShot.pause();
+                pistolShot.currentTime = 0;
                 this.mouse.x = event.x;
                 this.mouse.y = event.y;
+                pistolShot.play();
             });
         }
         init(context) {
